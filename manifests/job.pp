@@ -290,7 +290,7 @@ define curator::job (
     hour        => $cron_hour,
     minute      => $cron_minute,
     weekday     => $cron_weekday,
-    environment => "MAILTO=${mailto}"
+    environment => $mailto
   }
 
 }
