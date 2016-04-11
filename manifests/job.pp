@@ -287,7 +287,7 @@ define curator::job (
   $options = join(delete_undef_values([$mo_string, $ssl_string, $ssl_certificate, $ssl_no_validate, $auth_string]), ' ')
 
   if $cronic {
-    $cron_command = "${cronic_bin} ${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null"
+    $cron_command = "${cronic_bin} ${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} 2>&1"
   } else {
     $cron_command = "${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null"
   }
