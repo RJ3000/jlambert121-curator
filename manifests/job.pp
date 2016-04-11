@@ -63,6 +63,7 @@ define curator::job (
   $cron_hour             = 1,
   $cron_minute           = 10,
   $mailto                = undef,
+  $cronic                = false
 ){
 
   include ::curator
@@ -284,9 +285,15 @@ define curator::job (
   $index_options = join(delete_undef_values([$_prefix, $_suffix, $_regex, $_time_unit, $_exclude, $_index, $_snapshot, $_older_than, $_newer_than, $_timestring]), ' ')
   $options = join(delete_undef_values([$mo_string, $ssl_string, $ssl_certificate, $ssl_no_validate, $auth_string]), ' ')
 
+  if $cronic {
+    $cron_command = "${cronic_bin} ${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null"
+  } else {
+    $cron_command = "${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null"
+  }
+
   cron { "curator_${name}":
     ensure      => $ensure,
-    command     => "${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null",
+    command     => $cron_command,
     hour        => $cron_hour,
     minute      => $cron_minute,
     weekday     => $cron_weekday,

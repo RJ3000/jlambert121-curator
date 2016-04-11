@@ -11,6 +11,7 @@ class curator::params {
 
   # Defaults used for jobs, set through the class to make it easy to override
   $bin_file             = '/bin/curator'
+  $cronic_bin           = '/usr/bin/cronic'
   $host                 = 'localhost'
   $port                 = 9200
   $use_ssl              = false
