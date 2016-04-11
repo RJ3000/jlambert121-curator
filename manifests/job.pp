@@ -8,7 +8,7 @@ define curator::job (
   $ensure                = 'present',
   $sub_command           = 'indices',
   $bin_file              = $::curator::bin_file,
-  $cronic_cin            = $::curator::cronic_bin,
+  $cronic_bin            = $::curator::cronic_bin,
 
   # ES config
   $host                  = $::curator::host,
