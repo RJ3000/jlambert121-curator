@@ -62,6 +62,7 @@ define curator::job (
   $cron_weekday          = '*',
   $cron_hour             = 1,
   $cron_minute           = 10,
+  $mailto                = undef,
 ){
 
   include ::curator
@@ -284,11 +285,12 @@ define curator::job (
   $options = join(delete_undef_values([$mo_string, $ssl_string, $ssl_certificate, $ssl_no_validate, $auth_string]), ' ')
 
   cron { "curator_${name}":
-    ensure  => $ensure,
-    command => "${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null",
-    hour    => $cron_hour,
-    minute  => $cron_minute,
-    weekday => $cron_weekday,
+    ensure      => $ensure,
+    command     => "${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null",
+    hour        => $cron_hour,
+    minute      => $cron_minute,
+    weekday     => $cron_weekday,
+    environment => "MAILTO=${mailto}"
   }
 
 }
