@@ -225,7 +225,7 @@ define curator::job (
       if !is_integer($request_timeout) {
         fail("curator::job[${name}] request_timeout must be an integer")
       } else {
-        $_timeout = " --request_timeout ${request_timeout}"
+        $_timeout = " --timeout ${request_timeout}"
       }
 
       $exec = "optimize${_delay}${_segments}${_timeout} indices"
@@ -283,7 +283,7 @@ define curator::job (
     $auth_string = undef
   }
 
-  $index_options = join(delete_undef_values([$_prefix, $_suffix, $_regex, $_time_unit, $_exclude, $_index, $_snapshot, $_older_than, $_newer_than, $_timestring]), ' ')
+  $index_options = join(delete_undef_values([$_timeout, $_prefix, $_suffix, $_regex, $_time_unit, $_exclude, $_index, $_snapshot, $_older_than, $_newer_than, $_timestring]), ' ')
   $options = join(delete_undef_values([$mo_string, $ssl_string, $ssl_certificate, $ssl_no_validate, $auth_string]), ' ')
 
   if $cronic {
