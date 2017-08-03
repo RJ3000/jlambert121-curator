@@ -283,13 +283,13 @@ define curator::job (
     $auth_string = undef
   }
 
-  $index_options = join(delete_undef_values([$_timeout, $_prefix, $_suffix, $_regex, $_time_unit, $_exclude, $_index, $_snapshot, $_older_than, $_newer_than, $_timestring]), ' ')
+  $index_options = join(delete_undef_values([$_prefix, $_suffix, $_regex, $_time_unit, $_exclude, $_index, $_snapshot, $_older_than, $_newer_than, $_timestring]), ' ')
   $options = join(delete_undef_values([$mo_string, $ssl_string, $ssl_certificate, $ssl_no_validate, $auth_string]), ' ')
 
   if $cronic {
-    $cron_command = "${cronic_bin} ${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} 2>&1"
+    $cron_command = "${cronic_bin} ${bin_file} --timeout ${request_timeout} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} 2>&1"
   } else {
-    $cron_command = "${bin_file} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null"
+    $cron_command = "${bin_file} --timeout ${request_timeout} --logfile ${logfile} --loglevel ${log_level} --logformat ${logformat} ${options} --host ${host} --port ${port} ${exec} ${index_options} >/dev/null"
   }
 
   cron { "curator_${name}":
